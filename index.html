@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Scientific Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg,#1e3c72,#2a5298);
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        margin:0;
+    }
+
+    .calculator {
+        background:#111;
+        padding:20px;
+        border-radius:15px;
+        box-shadow:0 0 20px rgba(0,0,0,0.6);
+        width:320px;
+    }
+
+    .display {
+        width:100%;
+        height:60px;
+        font-size:24px;
+        margin-bottom:15px;
+        text-align:right;
+        padding:10px;
+        border:none;
+        border-radius:10px;
+        background:#222;
+        color:#0f0;
+    }
+
+    .buttons {
+        display:grid;
+        grid-template-columns:repeat(5,1fr);
+        gap:10px;
+    }
+
+    button {
+        padding:15px;
+        font-size:16px;
+        border:none;
+        border-radius:10px;
+        cursor:pointer;
+        background:#333;
+        color:white;
+        transition:.2s;
+    }
+
+    button:hover {
+        background:#555;
+    }
+
+    .operator { background:#ff9500; }
+    .equal { background:#28a745; grid-column: span 2; }
+    .clear { background:#dc3545; }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" class="display" readonly>
+
+    <div class="buttons">
+        <button class="clear" onclick="clearDisplay()">C</button>
+        <button onclick="deleteLast()">DEL</button>
+        <button onclick="append('(')">(</button>
+        <button onclick="append(')')">)</button>
+        <button class="operator" onclick="append('/')">÷</button>
+
+        <button onclick="append('7')">7</button>
+        <button onclick="append('8')">8</button>
+        <button onclick="append('9')">9</button>
+        <button onclick="append('*')">×</button>
+        <button onclick="calcFunc('sqrt')">√</button>
+
+        <button onclick="append('4')">4</button>
+        <button onclick="append('5')">5</button>
+        <button onclick="append('6')">6</button>
+        <button onclick="append('-')">−</button>
+        <button onclick="calcFunc('pow')">x²</button>
+
+        <button onclick="append('1')">1</button>
+        <button onclick="append('2')">2</button>
+        <button onclick="append('3')">3</button>
+        <button onclick="append('+')">+</button>
+        <button onclick="calcFunc('sin')">sin</button>
+
+        <button onclick="append('0')">0</button>
+        <button onclick="append('.')">.</button>
+        <button onclick="append('Math.PI')">π</button>
+        <button onclick="append('Math.E')">e</button>
+        <button onclick="calcFunc('cos')">cos</button>
+
+        <button onclick="calcFunc('tan')">tan</button>
+        <button onclick="calcFunc('log')">log</button>
+        <button onclick="calcFunc('ln')">ln</button>
+        <button class="equal" onclick="calculate()">=</button>
+    </div>
+</div>
+
+<script>
+const display = document.getElementById("display");
+
+function append(value){
+    display.value += value;
+}
+
+function clearDisplay(){
+    display.value = "";
+}
+
+function deleteLast(){
+    display.value = display.value.slice(0,-1);
+}
+
+function calculate(){
+    try{
+        display.value = eval(display.value);
+    } catch{
+        display.value = "Error";
+    }
+}
+
+function calcFunc(func){
+    try{
+        let val = eval(display.value);
+        if(func==="sqrt") display.value = Math.sqrt(val);
+        if(func==="pow") display.value = Math.pow(val,2);
+        if(func==="sin") display.value = Math.sin(val*Math.PI/180);
+        if(func==="cos") display.value = Math.cos(val*Math.PI/180);
+        if(func==="tan") display.value = Math.tan(val*Math.PI/180);
+        if(func==="log") display.value = Math.log10(val);
+        if(func==="ln") display.value = Math.log(val);
+    } catch{
+        display.value="Error";
+    }
+}
+</script>
+
+</body>
+</html>
